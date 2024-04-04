@@ -1,5 +1,7 @@
 using Madrasa.Api;
+using Madrasa.Api.Interfaces;
 using Madrasa.Api.Model;
+using Madrasa.Api.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing;
 using System.Reflection.Emit;
@@ -16,6 +18,9 @@ builder.Services.AddDbContext<MadrasaDb>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddScoped<IElevesRepository, ElevesRepository>();
+builder.Services.AddScoped<IMaisonRepository, MaisonRepository>();
 
 var app = builder.Build();
 
