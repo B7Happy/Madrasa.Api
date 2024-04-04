@@ -11,7 +11,6 @@ namespace Madrasa.Api.Model
         public Classes? Classes { get; set; }
         public int? ProfesseursId { get; set; }
         public Professeurs? Professeurs { get; set; }
-        public int MatiereID { get; set; }
         public int? MP { get; set; }
         public int? MPB { get; set; }
         public string? MS1Text  { get; set; }

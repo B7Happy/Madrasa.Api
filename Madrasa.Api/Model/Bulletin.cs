@@ -40,5 +40,7 @@ namespace Madrasa.Api.Model
         
         [Column(TypeName = "decimal(18,2)")]
         public decimal? Hudhur { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? Total { get; set; }
     }
 }
