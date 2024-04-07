@@ -21,12 +21,25 @@ builder.Services.AddDbContext<MadrasaDb>(options =>
 
 builder.Services.AddScoped<IElevesRepository, ElevesRepository>();
 builder.Services.AddScoped<IMaisonRepository, MaisonRepository>();
+builder.Services.AddScoped<IProfesseursRepository, ProfesseursRepository>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAnyOrigin", policy =>
+    {
+        policy
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseCors("AllowAnyOrigin");
     app.UseSwagger();
     app.UseSwaggerUI();
 }

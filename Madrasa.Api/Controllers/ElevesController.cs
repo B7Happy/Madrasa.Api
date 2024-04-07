@@ -11,12 +11,10 @@ namespace Madrasa.Api.Controllers
     [ApiController]
     public class ElevesController : ControllerBase
     {
-        public MadrasaDb _context;
         private readonly IElevesRepository _elevesRepo;
-        public ElevesController(MadrasaDb context, IElevesRepository elvesRepo)
+        public ElevesController(IElevesRepository elvesRepo)
         {
             _elevesRepo = elvesRepo;
-            _context = context;
         }
 
         [HttpGet]
