@@ -16,12 +16,14 @@ namespace Madrasa.Api.Mappers
                 Prenom = eleveModel.Prenom,
                 Sexe = eleveModel.Sexe,
                 DateNaissance = eleveModel.DateNaissance,
+                Age = eleveModel.Age,
                 LieuNaissance = eleveModel.LieuNaissance,
                 TelMobile = eleveModel.TelMobile,
                 Email = eleveModel.Email,
                 MaisonId = eleveModel.MaisonId,
                 ClassesId = eleveModel.ClassesId,
-                DateEntree = eleveModel.DateEntree
+                DateEntree = eleveModel.DateEntree,
+                Maison = eleveModel.Maison.ToMaisonDto()
             };
         }
 

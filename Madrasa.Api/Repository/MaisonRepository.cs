@@ -36,12 +36,12 @@ namespace Madrasa.Api.Repository
 
         public async Task<IEnumerable<Maison>> GetAllAsync()
         {
-            return await _context.Maison.ToListAsync();
+            return await _context.Maison.Include(c => c.Parent).ToListAsync();
         }
 
         public async Task<Maison?> GetByIdAsync(int id)
         {
-            return await _context.Maison.FindAsync(id);
+            return await _context.Maison.Include(c => c.Parent).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Maison> UpdateAsync(int id, UpdateMaisonRequestDto maison)

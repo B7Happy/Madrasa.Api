@@ -24,6 +24,13 @@ namespace Madrasa.Api.Controllers
             return Ok(vals);
         }
 
+        [HttpGet("CurrentEleves")]
+        public async Task<IActionResult> GetAllEleveInCLasse()
+        {
+            var vals = await _elevesRepo.GetAllEleveInClasseAsync();
+            return Ok(vals);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {

@@ -10,9 +10,7 @@ namespace Madrasa.Api.Dtos.Maison
         public int? CodePostal { get; set; }
         public string? Ville { get; set; }
         public int? TelDomicile { get; set; }
-        public Parent Pere { get; set; }
-        public Parent Mere { get; set; }
-        public int? ContactUrgence { get; set; }
+        public List<Parent> Parent { get; set; }
         public bool? Adherent { get; set; }
         public string? Categorie { get; set; }
     }

@@ -1,10 +1,12 @@
 ﻿using Madrasa.Api.Model;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
 
 namespace Madrasa.Api
 {
-    public class MadrasaDb : DbContext
+    public class MadrasaDb : IdentityDbContext<AppUser>
     {
         public MadrasaDb(DbContextOptions<MadrasaDb> options)
             : base(options) { }
@@ -64,11 +66,11 @@ namespace Madrasa.Api
             //    .HasForeignKey<Examen>(e => e.ClassesId)
             //    .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Examen>()
-                .HasOne(e => e.Professeurs)
-                .WithOne(p => p.Examen)
-                .HasForeignKey<Examen>(e => e.ProfesseursId)
-                .OnDelete(DeleteBehavior.Restrict);
+            //modelBuilder.Entity<Examen>()
+            //    .HasOne(e => e.Professeurs)
+            //    .WithOne(p => p.Examen)
+            //    .HasForeignKey<Examen>(e => e.ProfesseursId)
+            //    .OnDelete(DeleteBehavior.Restrict);
 
             //modelBuilder.Entity<Matieres>()
             //    .HasOne(m => m.Classes)
@@ -81,6 +83,16 @@ namespace Madrasa.Api
             //    .WithMany(m => m.Parent)
             //    .HasForeignKey(p => p.MaisonId)
             //    .OnDelete(DeleteBehavior.Restrict);
+
+            base.OnModelCreating(modelBuilder);
+
+            List<IdentityRole> roles = new List<IdentityRole>
+            {
+                new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" },
+                new IdentityRole { Name = "User", NormalizedName = "USER" }
+            };
+
+            modelBuilder.Entity<IdentityRole>().HasData(roles);
         }
     }
 }

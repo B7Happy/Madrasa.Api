@@ -1,5 +1,6 @@
 ﻿using Madrasa.Api.Dtos.Eleves;
 using Madrasa.Api.Interfaces;
+using Madrasa.Api.Mappers;
 using Madrasa.Api.Model;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,13 +36,20 @@ namespace Madrasa.Api.Repository
 
         public async Task<IEnumerable<Eleves>> GetAllAsync()
         {
-            return await _context.Eleves.ToListAsync();
+            return await _context.Eleves.Include(c => c.Maison).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Eleves>> GetAllEleveInClasseAsync()
+        {
+            return await _context.Eleves.Where(c => c.ClassesId != null).Include(c => c.Maison).Include(c => c.Classes).ToListAsync();
         }
 
         public async Task<Eleves?> GetByIdAsync(int id)
         {
-            return await _context.Eleves.FindAsync(id);
+            return await _context.Eleves.Include(c => c.Maison).Include(c => c.Maison.Parent).FirstOrDefaultAsync(x => x.Id == id);
         }
+
+
 
         public async Task<Eleves> UpdateAsync(int id, UpdateEleveRequestDto eleve)
         {
