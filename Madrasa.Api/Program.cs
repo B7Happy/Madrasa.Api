@@ -107,14 +107,15 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+app.UseCors("AllowAnyOrigin");
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseCors("AllowAnyOrigin");
+//if (app.Environment.IsDevelopment())
+//{
+
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 app.UseAuthentication();
 app.UseAuthorization();
