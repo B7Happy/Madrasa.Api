@@ -15,7 +15,7 @@ namespace Madrasa.Api.Model
         public DateTime? DateNaissance
         {
             get { return _dateDeNaissance; }
-            set { _dateDeNaissance = (DateTime)value; }
+            set { _dateDeNaissance = value; }
         }
 
         [NotMapped]

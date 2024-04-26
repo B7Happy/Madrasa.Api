@@ -28,6 +28,10 @@ namespace Madrasa.Api.Controllers
         public async Task<IActionResult> GetAllEleveInCLasse()
         {
             var vals = await _elevesRepo.GetAllEleveInClasseAsync();
+            foreach (var eleve in vals)
+            {
+                eleve.Classes.Eleves = null;
+            }
             return Ok(vals);
         }
 

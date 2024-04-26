@@ -35,5 +35,22 @@ namespace Madrasa.Api.Mappers
                 Categorie = createMaisonRequestDto.Categorie
             };
         }
+
+        public static Maison ToMaison(this Maison maisonModel)
+        {
+            return new Maison
+            {
+                Id = maisonModel.Id,
+                Adresse = maisonModel.Adresse,
+                Complement = maisonModel.Complement,
+                CodePostal = maisonModel.CodePostal,
+                Ville = maisonModel.Ville,
+                TelDomicile = maisonModel.TelDomicile,
+                Adherent = maisonModel.Adherent,
+                Categorie = maisonModel.Categorie,
+                Parent = maisonModel.Parent.ToList()
+
+            };
+        }
     }
 }

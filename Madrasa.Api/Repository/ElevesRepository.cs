@@ -41,7 +41,7 @@ namespace Madrasa.Api.Repository
 
         public async Task<IEnumerable<Eleves>> GetAllEleveInClasseAsync()
         {
-            return await _context.Eleves.Where(c => c.ClassesId != null).Include(c => c.Maison).Include(c => c.Classes).ToListAsync();
+            return (IEnumerable<Eleves>)await _context.Eleves.Where(c => c.Suspendu == false).Include(c => c.Maison.Parent).Include(c => c.Classes).ToListAsync();
         }
 
         public async Task<Eleves?> GetByIdAsync(int id)
