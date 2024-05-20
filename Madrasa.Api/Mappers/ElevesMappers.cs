@@ -31,7 +31,6 @@ namespace Madrasa.Api.Mappers
         {
             return new Eleves
             {
-                SN = eleveModel.SN,
                 Suspendu = eleveModel.Suspendu,
                 Nom = eleveModel.Nom,
                 Prenom = eleveModel.Prenom,
@@ -42,7 +41,23 @@ namespace Madrasa.Api.Mappers
                 Email = eleveModel.Email,
                 MaisonId = eleveModel.MaisonId,
                 ClassesId = eleveModel.ClassesId,
-                DateEntree = eleveModel.DateEntree
+            };
+        }
+
+        public static Eleves ToElevesFromCreate(this CreateEleveRequest eleveModel)
+        {
+            return new Eleves
+            {
+                Suspendu = eleveModel.Suspendu,
+                Nom = eleveModel.Nom,
+                Prenom = eleveModel.Prenom,
+                Sexe = eleveModel.Sexe,
+                DateNaissance = eleveModel.DateNaissance,
+                LieuNaissance = eleveModel.LieuNaissance,
+                TelMobile = eleveModel.TelMobile,
+                Email = eleveModel.Email,
+                MaisonId = eleveModel.MaisonId,
+                ClassesId = eleveModel.ClassesId,
             };
         }
     }

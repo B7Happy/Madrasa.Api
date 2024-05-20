@@ -23,6 +23,20 @@ namespace Madrasa.Api.Controllers
             return Ok(vals);
         }
 
+        [HttpGet("AllTelNumber")]
+        public async Task<IActionResult> GetAllTelNumber()
+        {
+            var vals = await _maisonRepo.GetAllAsync();
+            var allNumbers = vals.Select(x => new MaisonSelect
+            {
+                name = x.TelDomicile != null ?  "0" + x.TelDomicile.ToString() : "",
+                value = x.Id
+            }).ToList();
+
+            allNumbers.RemoveAll(item => item.name == "");
+            return Ok(allNumbers);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
@@ -43,16 +57,16 @@ namespace Madrasa.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateMaisonRequestDto updateMaison )
+        public async Task<IActionResult> Update([FromBody] UpdateMaisonRequestDto updateMaison )
         {
-           var maisonModel = await _maisonRepo.UpdateAsync(id, updateMaison);
+           var maisonModel = await _maisonRepo.UpdateAsync(updateMaison.Id, updateMaison);
 
             if (maisonModel == null)
             {
                 return NotFound();
             }
 
-            return Ok(maisonModel.ToMaisonDto());
+            return Ok(maisonModel);
         }
 
         [HttpDelete("{id}")]

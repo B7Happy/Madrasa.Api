@@ -16,7 +16,9 @@ namespace Madrasa.Api.Repository
 
         public async Task<IEnumerable<Classes>> GetAllAsync()
         {
-            return await _context.Classes.Include(x => x.Professeurs).ToListAsync();
+            var eleves = await _context.Eleves.Include(c => c.Maison.Parent).ToListAsync(); ;
+            var classes = await _context.Classes.Include(x => x.Professeurs).Include(c => c.Eleves).ToListAsync();
+            return classes;
         }
 
         public async Task<Classes?> GetByIdAsync(int id)

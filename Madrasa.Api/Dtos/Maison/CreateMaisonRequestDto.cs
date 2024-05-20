@@ -3,7 +3,6 @@ namespace Madrasa.Api.Dtos.Maison
 {
     public class CreateMaisonRequestDto
     {
-        public int Id { get; set; }
         public string? Adresse { get; set; }
         public string? Complement { get; set; }
         public int? CodePostal { get; set; }

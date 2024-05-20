@@ -1,6 +1,8 @@
 ﻿using Madrasa.Api.Dtos.Eleves;
+using Madrasa.Api.Dtos.Maison;
 using Madrasa.Api.Interfaces;
 using Madrasa.Api.Mappers;
+using Madrasa.Api.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,9 +14,13 @@ namespace Madrasa.Api.Controllers
     public class ElevesController : ControllerBase
     {
         private readonly IElevesRepository _elevesRepo;
-        public ElevesController(IElevesRepository elvesRepo)
+        private readonly IMaisonRepository _maisonRepo;
+        private readonly IParentRepository _parentRepo;
+        public ElevesController(IElevesRepository elvesRepo, IMaisonRepository maisonRepo, IParentRepository parentRepo)
         {
             _elevesRepo = elvesRepo;
+            _maisonRepo = maisonRepo;
+            _parentRepo = parentRepo;
         }
 
         [HttpGet]
@@ -35,37 +41,83 @@ namespace Madrasa.Api.Controllers
             return Ok(vals);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById([FromRoute] int id)
+        [HttpGet("CurrentElevesDoc")]
+        public async Task<IActionResult> GetAllEleveForDoc()
         {
-            var vals = await _elevesRepo.GetByIdAsync(id);
-            if (vals == null)
+            var vals = await _elevesRepo.GetAllEleveForDocAsync();
+            foreach (var eleve in vals)
             {
-                return NotFound();
+                eleve.Classes.Eleves = null;
             }
             return Ok(vals);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateEleveRequestDto EleveDto)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var EleveModel = EleveDto.ToElevesFromCreateDTO();
-            await _elevesRepo.CreateAsync(EleveModel);
-            return CreatedAtAction(nameof(GetById), new { id = EleveModel.Id }, EleveModel.ToEleveDto());
+            var vals = await _elevesRepo.GetByIdAsync(id);
+            
+            if (vals == null)
+            {
+                return NotFound();
+            }
+            var eleveByClasse = await _elevesRepo.GetAllEleveByClasseAsync((int)vals.ClassesId);
+            vals.Classes.Eleves = eleveByClasse.ToList();
+            return Ok(vals);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateEleveRequest EleveDto)
+        {
+            var EleveModel = EleveDto.ToElevesFromCreate();
+            EleveModel.DateEntree = DateTime.Now;
+
+            if (EleveDto.Maison.Adresse != "")
+            {
+                var MaisonModel = EleveDto.Maison.ToMaisonFromCreateDTO();
+                var newMaison = await _maisonRepo.CreateAsync(MaisonModel);
+
+                foreach (var parent in EleveDto.Parent)
+                {
+
+                    var newParent = parent.ToParentFromCreateDTO();
+                    newParent.MaisonId = newMaison.Id;
+                    await _parentRepo.CreateAsync(newParent);
+                }
+
+                EleveModel.MaisonId = newMaison.Id;
+            }
+
+            var newEleve = await _elevesRepo.CreateAsync(EleveModel);
+
+            return Ok();
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateEleveRequestDto updateEleve )
+        public async Task<IActionResult> Update([FromBody] UpdateEleveRequestDto updateEleve)
         {
-           var eleveModel = await _elevesRepo.UpdateAsync(id, updateEleve);
+            var eleveModel = await _elevesRepo.UpdateAsync(updateEleve.Id, updateEleve);
 
             if (eleveModel == null)
             {
                 return NotFound();
             }
 
-            return Ok(eleveModel.ToEleveDto());
+            return Ok(eleveModel);
         }
+
+        //[HttpPut]
+        //public async Task<IActionResult> Update(Eleves updateEleve)
+        //{
+        //    var eleveModel = await _elevesRepo.UpdateAllAsync(updateEleve);
+
+        //    if (eleveModel == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return Ok(eleveModel);
+        //}
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)

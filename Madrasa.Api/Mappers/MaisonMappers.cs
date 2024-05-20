@@ -17,7 +17,7 @@ namespace Madrasa.Api.Mappers
                 TelDomicile = maisonModel.TelDomicile,
                 Adherent = maisonModel.Adherent,
                 Categorie = maisonModel.Categorie,
-                Parent = maisonModel.Parent.ToList()
+                Parent = maisonModel.Parent.ConvertAll(p => p.ToParentDto())
 
             };
         }

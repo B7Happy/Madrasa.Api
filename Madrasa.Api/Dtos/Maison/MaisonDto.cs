@@ -1,4 +1,7 @@
-﻿using Madrasa.Api.Model;
+﻿
+
+using Madrasa.Api.Dtos.Parent;
+using Madrasa.Api.Model;
 
 namespace Madrasa.Api.Dtos.Maison
 {
@@ -10,7 +13,7 @@ namespace Madrasa.Api.Dtos.Maison
         public int? CodePostal { get; set; }
         public string? Ville { get; set; }
         public int? TelDomicile { get; set; }
-        public List<Parent> Parent { get; set; }
+        public List<ParentDto> Parent { get; set; }
         public bool? Adherent { get; set; }
         public string? Categorie { get; set; }
     }

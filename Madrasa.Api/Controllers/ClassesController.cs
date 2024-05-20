@@ -20,7 +20,42 @@ namespace Madrasa.Api.Controllers
         public async Task<IActionResult> GetAll()
         {
             var vals = await _classesRepo.GetAllAsync();
+            foreach (var classe in vals)
+            {
+                classe.Professeurs.Classes = null;
+            }
+            foreach (var classe in vals)
+            {
+                foreach (var eleve in classe.Eleves)
+                {
+                    eleve.Classes = null;
+                }
+            }
             return Ok(vals);
+        }
+
+        [HttpGet("GetAllClasses")]
+        public async Task<IActionResult> GetAllClasse()
+        {
+            var vals = await _classesRepo.GetAllAsync();
+            foreach (var classe in vals)
+            {
+                classe.Professeurs.Classes = null;
+            }
+            foreach (var classe in vals)
+            {
+                foreach (var eleve in classe.Eleves)
+                {
+                    eleve.Classes = null;
+                }
+            }
+
+            var classesSelect = vals.Select(x => new ClassesSelect
+            {
+                name = x.Classe,
+                value = x.Id
+            }).ToList();
+            return Ok(classesSelect);
         }
 
         [HttpGet("{id}")]
@@ -39,20 +74,20 @@ namespace Madrasa.Api.Controllers
         {
             var classeModel = classeDto.ToClassesFromCreateDTO();
             await _classesRepo.CreateAsync(classeModel);
-            return CreatedAtAction(nameof(GetById), new { id = classeModel.Id }, classeModel.ToClassesDto());
+            return Ok();
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateClassesRequestDto updateClasse)
+        public async Task<IActionResult> Update([FromBody] UpdateClassesRequestDto updateClasse)
         {
-            var classeModel = await _classesRepo.UpdateAsync(id, updateClasse);
+            var classeModel = await _classesRepo.UpdateAsync(updateClasse.Id, updateClasse);
 
             if (classeModel == null)
             {
                 return NotFound();
             }
 
-            return Ok(classeModel.ToClassesDto());
+            return Ok(classeModel);
         }
 
         [HttpDelete("{id}")]

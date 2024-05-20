@@ -18,5 +18,38 @@ namespace Madrasa.Api.Mappers
                 GroupeId = horaireModel.GroupeId
             };
         }
+
+        public static Horaire ToHoraireFromCreateHoraireDto(this CreateHoraireDto createHoraireDto)
+        {
+            TimeSpan heureDebut = TimeSpan.Parse(createHoraireDto.HDeb);
+            TimeSpan heureFin = TimeSpan.Parse(createHoraireDto.HFin);
+            TimeSpan duree = heureFin - heureDebut;
+            return new Horaire
+            {
+                NumJour = createHoraireDto.NumJour,
+                Jour = createHoraireDto.Jour,
+                HDeb = heureDebut,
+                HFin = heureFin,
+                Duree = duree,
+                GroupeId = createHoraireDto.GroupeId
+            };
+        }
+
+        public static Horaire ToHoraireFromEditHoraireDto(this EditHoraireDto editHoraireDto)
+        {
+            TimeSpan heureDebut = TimeSpan.Parse(editHoraireDto.HDeb);
+            TimeSpan heureFin = TimeSpan.Parse(editHoraireDto.HFin);
+            TimeSpan duree = heureFin - heureDebut;
+            return new Horaire
+            {
+                Id = editHoraireDto.Id,
+                NumJour = editHoraireDto.NumJour,
+                Jour = editHoraireDto.Jour,
+                HDeb = heureDebut,
+                HFin = heureFin,
+                Duree = duree,
+                GroupeId = editHoraireDto.GroupeId
+            };
+        }
     }
 }

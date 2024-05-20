@@ -34,7 +34,7 @@ namespace Madrasa.Api.Controllers
                 var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == model.UserName);
 
                 if (user == null)
-                    return Unauthorized("Invalid username");
+                    return Unauthorized("Nom d'utilisateur et/ou mot de passe invalide");
 
                 var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
 

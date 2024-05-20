@@ -95,6 +95,9 @@ builder.Services.AddScoped<IMaisonRepository, MaisonRepository>();
 builder.Services.AddScoped<IProfesseursRepository, ProfesseursRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IClassesRepository, ClassesRepository>();
+builder.Services.AddScoped<IParentRepository, ParentRepository>();
+builder.Services.AddScoped<IGroupeRepository, GroupeRepository>();
+builder.Services.AddScoped<IHoraireRepository, HoraireRepository>();
 
 builder.Services.AddCors(options =>
 {

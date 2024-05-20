@@ -1,4 +1,5 @@
-﻿using Madrasa.Api.Dtos.Eleves;
+﻿using Madrasa.Api.Dtos.Classes;
+using Madrasa.Api.Dtos.Eleves;
 using Madrasa.Api.Dtos.Professeurs;
 using Madrasa.Api.Interfaces;
 using Madrasa.Api.Mappers;
@@ -48,9 +49,9 @@ namespace Madrasa.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Professeurs>> UpdateAsync(int id, UpdateProfesseursRequestDto professeurs)
+        public async Task<ActionResult<Professeurs>> UpdateAsync([FromBody] UpdateProfesseursRequestDto professeurs)
         {
-            var updatedProfesseurs = await _professeursRepository.UpdateAsync(id, professeurs);
+            var updatedProfesseurs = await _professeursRepository.UpdateAsync(professeurs.Id, professeurs);
             if (updatedProfesseurs == null)
             {
                 return NotFound();
@@ -67,6 +68,21 @@ namespace Madrasa.Api.Controllers
                 return NotFound();
             }
             return Ok(deletedProfesseurs);
+        }
+
+
+
+        [HttpGet("GetAllProfesseurs")]
+        public async Task<IActionResult> GetAllProfesseurs()
+        {
+            var vals = await _professeursRepository.GetAllAsync();
+
+            var classesSelect = vals.Select(x => new ProfesseursSelect
+            {
+                name = x.Nom,
+                value = x.Id
+            }).ToList();
+            return Ok(classesSelect);
         }
     }
 }

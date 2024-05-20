@@ -11,5 +11,8 @@ namespace Madrasa.Api.Interfaces
         Task<Eleves> CreateAsync(Eleves eleve);
         Task<Eleves> UpdateAsync(int id, UpdateEleveRequestDto eleve);
         Task<Eleves> DeleteAsync(int id);
+        Task<IEnumerable<Eleves>> GetAllEleveForDocAsync();
+        Task<IEnumerable<Eleves>> GetAllEleveByClasseAsync(int classesId);
+        Task<IEnumerable<Eleves>> UpdateAllAsync(Eleves updateEleve);
     }
 }
