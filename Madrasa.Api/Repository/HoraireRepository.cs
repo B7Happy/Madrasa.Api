@@ -38,6 +38,7 @@ private readonly MadrasaDb _context;
             horaireToUpdate.HDeb = horaire.HDeb;
             horaireToUpdate.HFin = horaire.HFin;
             horaireToUpdate.GroupeId = horaire.GroupeId;
+            horaireToUpdate.Duree = horaire.Duree;
 
             await _context.SaveChangesAsync();
             return horaireToUpdate;
