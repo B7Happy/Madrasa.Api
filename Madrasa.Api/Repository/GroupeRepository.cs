@@ -39,5 +39,19 @@ namespace Madrasa.Api.Repository
             await _context.SaveChangesAsync();
             return groupeToUpdate;
         }
+
+        public async Task<Groupe> DeleteAsync(int id)
+        {
+            var groupeToDelete = await _context.Groupe.FindAsync(id);
+            
+            if (groupeToDelete == null)
+            {
+                throw new Exception("Groupe not found");
+            }
+
+            _context.Groupe.Remove(groupeToDelete);
+            await _context.SaveChangesAsync();
+            return groupeToDelete;
+        }
     }
 }

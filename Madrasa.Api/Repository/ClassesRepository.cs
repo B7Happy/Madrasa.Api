@@ -23,6 +23,7 @@ namespace Madrasa.Api.Repository
 
         public async Task<Classes?> GetByIdAsync(int id)
         {
+            var eleves = await _context.Eleves.ToListAsync();
             return await _context.Classes.FindAsync(id);
         }
 

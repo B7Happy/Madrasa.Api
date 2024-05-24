@@ -95,5 +95,21 @@ namespace Madrasa.Api.Repository
             await _context.SaveChangesAsync();
             return await _context.Eleves.ToListAsync();
         }
+
+        public async Task<Eleves> SuspendreEleveAsync(SuspendreEleveDto suspendreEleve)
+        {
+            var existingEleve = await _context.Eleves.FirstOrDefaultAsync(x => x.Id == suspendreEleve.Id);
+
+            if (existingEleve == null)
+            {
+                throw new Exception("Eleve not found");
+            }
+
+            existingEleve.Suspendu = suspendreEleve.Suspendu;
+
+            await _context.SaveChangesAsync();
+
+            return existingEleve;
+        }
     }
 }

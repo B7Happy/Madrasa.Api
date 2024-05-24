@@ -34,6 +34,13 @@ namespace Madrasa.Api.Controllers
             return Ok(val);
         }
 
+        [HttpGet("ByGroupe/{groupeId}")]
+        public async Task<IActionResult> GetByGroupe(int groupeId)
+        {
+            var vals = await _horaireRepo.GetByGroupeAsync(groupeId);
+            return Ok(vals);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateHoraireDto horaire)
         {
@@ -54,6 +61,19 @@ namespace Madrasa.Api.Controllers
             }
 
             return Ok(horaireUpdated);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromBody] EditHoraireDto horaire)
+        {
+            var horaireToDelete = await _horaireRepo.DeleteAsync(horaire.Id);
+
+            if (horaireToDelete == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(horaireToDelete);
         }
     }
 }

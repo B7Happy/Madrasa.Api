@@ -44,5 +44,18 @@ namespace Madrasa.Api.Controllers
 
             return Ok(groupeToUpdate);
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromBody] UpdateGroupe groupe)
+        {
+            var groupeToDelete = await _groupeRepo.DeleteAsync(groupe.Id);
+
+            if (groupeToDelete == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(groupeToDelete);
+        }
     }
 }

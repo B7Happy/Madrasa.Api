@@ -48,5 +48,26 @@ private readonly MadrasaDb _context;
         {
             return await _context.Horaire.FindAsync(id);
         }
+
+        public async Task<Horaire> DeleteAsync(int id)
+        {
+            var horaireToDelete = await _context.Horaire.FindAsync(id);
+
+            if (horaireToDelete == null)
+            {
+                throw new Exception("Groupe not found");
+            }
+
+            _context.Horaire.Remove(horaireToDelete);
+            await _context.SaveChangesAsync();
+            return horaireToDelete;
+        }
+
+        public async Task<IEnumerable<Horaire>> GetByGroupeAsync(int groupeId)
+        {
+            var horaire = await _context.Horaire.ToListAsync();
+            var horaireByGroupe = horaire.Where(x => x.GroupeId == groupeId).ToList();
+            return horaireByGroupe;
+        }
     }
 }

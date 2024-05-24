@@ -45,10 +45,10 @@ namespace Madrasa.Api.Controllers
         {
             var professeursModel = professeurs.ToProfesseursFromCreateDTO();
             var createdProfesseurs = await _professeursRepository.CreateAsync(professeursModel);
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = createdProfesseurs.Id }, createdProfesseurs);
+            return Ok(createdProfesseurs);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<ActionResult<Professeurs>> UpdateAsync([FromBody] UpdateProfesseursRequestDto professeurs)
         {
             var updatedProfesseurs = await _professeursRepository.UpdateAsync(professeurs.Id, professeurs);
@@ -59,10 +59,10 @@ namespace Madrasa.Api.Controllers
             return Ok(updatedProfesseurs);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Professeurs>> DeleteAsync(int id)
+        [HttpDelete]
+        public async Task<ActionResult<Professeurs>> DeleteAsync(CreateProfesseursRequestDto professeurs)
         {
-            var deletedProfesseurs = await _professeursRepository.DeleteAsync(id);
+            var deletedProfesseurs = await _professeursRepository.DeleteAsync(professeurs.Id);
             if (deletedProfesseurs == null)
             {
                 return NotFound();

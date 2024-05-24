@@ -8,5 +8,6 @@ namespace Madrasa.Api.Interfaces
         Task<IEnumerable<Groupe>> GetAllAsync();
         Task<Groupe> CreateAsync(Groupe groupe);
         Task<Groupe> UpdateAsync(int id, UpdateGroupe groupe);
+        Task<Groupe> DeleteAsync(int id);
     }
 }

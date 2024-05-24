@@ -106,6 +106,19 @@ namespace Madrasa.Api.Controllers
             return Ok(eleveModel);
         }
 
+        [HttpPut("Suspendre")]
+        public async Task<IActionResult> Suspendre([FromBody] SuspendreEleveDto suspendreEleve)
+        {
+            var eleveModel = await _elevesRepo.SuspendreEleveAsync(suspendreEleve);
+
+            if (eleveModel == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(eleveModel);
+        }
+
         //[HttpPut]
         //public async Task<IActionResult> Update(Eleves updateEleve)
         //{

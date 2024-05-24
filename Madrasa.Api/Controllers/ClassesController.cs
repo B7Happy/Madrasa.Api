@@ -90,17 +90,17 @@ namespace Madrasa.Api.Controllers
             return Ok(classeModel);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromBody] ClassesDto classe)
         {
-            var classeModel = await _classesRepo.DeleteAsync(id);
+            var classeModel = await _classesRepo.DeleteAsync(classe.Id);
 
             if (classeModel == null)
             {
                 return NotFound();
             }
 
-            return NoContent();
+            return Ok(classeModel);
         }
     }
 }

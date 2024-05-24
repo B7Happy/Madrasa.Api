@@ -21,6 +21,7 @@ namespace Madrasa.Api.Mappers
         {
             return new Professeurs
             {
+                Id = createProfesseursRequestDto.Id,
                 Nom = createProfesseursRequestDto.Nom,
                 TelMobile = createProfesseursRequestDto.TelMobile,
                 Email = createProfesseursRequestDto.Email
